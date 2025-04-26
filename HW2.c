@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 void menu1(int);
+void menu2(int);
 
 int main(void)
 {
@@ -12,6 +13,7 @@ int main(void)
 		printf("請輸入密碼:(密碼預設為2025)\n");
 	    scanf("%d",&password);
 	    if(password==2025)
+	        menu2(1);
 	        break;
 	    n++;
 	    if(n==4)
@@ -31,4 +33,13 @@ void menu1(int a)
 		printf("\n");
 	}
 	//return;
+}
+void menu2(int a)
+{
+	system("CLS"); // 清除螢幕
+	printf("---------------------\n");//主選單 
+	printf("| a. 畫出直角三角形 |\n");
+	printf("| b. 顯示乘法表     |\n");
+	printf("| c. 結束           |\n");
+	printf("---------------------\n");
 }

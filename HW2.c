@@ -3,13 +3,14 @@
 void menu1(int);
 void menu2(int);
 void RT(int);
-
+void MT(int);
 int main(void)
 {
 	int n=0,i=1,a=0,password;//宣告變數 
 	char ch,chRT='a';
+	
 	menu1(1);
-	do
+	for(i=1;i<=3;i++)
 	{
 		printf("請輸入密碼:(密碼預設為2025)\n");
 	    scanf("%d",&password);
@@ -21,7 +22,7 @@ int main(void)
 			    menu2(1);
 	            while(1)
 	            {
-	            	printf("請輸入:");
+	            	printf("請輸入:(a-c or A-C)\n");
 	            	scanf(" %c",&ch);
 	            	switch(ch)
 	            	{
@@ -37,8 +38,6 @@ int main(void)
 	        		    		if((int)chRT<'a'||(int)chRT>'n')
 	        		    		{
 	        		    	        printf("輸入錯誤，請重新輸入\n");
-	        		    	        //system("pause");
-	        		    	        //continue;
 	        		    	    }
 	        		    	    else
 	        		    	    {
@@ -46,29 +45,38 @@ int main(void)
 	        		    	    	system("pause");
 	        		    	    	break;
 								}
-	        		    		//scanf("%c",&chRT);
-	        		    		//system("pause");
-	        		    		//a=(int)chRT-96;
-	        		    	        
-	        		    	    //system("pause");
-	        		    	    //break;
-	        		    	    
-	        		    	    //system("pause");
-					    	}//while((int)chRT<'a'||(int)chRT>'n');
+					    	}
 					    	break;
+					    case 'b':
+					    case 'B':
+					    	while(1)
+					    	{
+					    		printf("請輸入n:(1-9)\n");
+					    		scanf(" %d",&n);
+					    		if(n<1||n>9)
+					    		    printf("輸入錯誤，請重新輸入\n");
+					    		else
+					    		{
+					    		    MT(n);
+					    		    system("pause");
+	        		    	    	break;
+	        		    	    }
+							}
+					    default:
+					    	printf("輸入錯誤，請重新輸入\n");
 				    }
-				    if((ch<'a'&&ch>'C')||ch>'c'||ch<'A')
-				        printf("輸入錯誤，請重新輸入\n");
-				    else
-				        break;
+				    //if((ch<'a'&&ch>'C')||ch>'c'||ch<'A')
+				    //    printf("輸入錯誤，請重新輸入\n");
+				    //else
+				    if((ch>='a'&&ch<='c')||(ch>='A'&&ch<='C'))    
+					    break;
 			    }
 			}//while((ch<'a'&&ch>'C')||ch>'c'||ch<'A');
 	        break;
     	}
-	    i++;
-	    if(i==4)
+	    if(i==3)
 	        printf("已連續密碼錯誤3次\n");
-	}while(i<=3);
+	}
     
 	system("pause");
 	return 0;
@@ -82,7 +90,6 @@ void menu1(int a)
 		    printf("hi hello ");
 		printf("\n");
 	}
-	//return;
 }
 void menu2(int a)
 {
@@ -97,7 +104,6 @@ void RT(int a)
 {
 	int i=0,j=0,k=0;
 	char str[]="abcdefghijklmn";
-	//printf("%d",a);
 	for(i=1;i<=a;i++)
 	{
 		for(j=a;j>i;j--)
@@ -106,7 +112,14 @@ void RT(int a)
 		    printf("%c",str[a-i+k-1]);
 		printf("\n");
 	}
-	//system("pause");
-	return;
-	
+}
+void MT(int a)
+{
+	int i,j;
+	for(i=1;i<=a;i++)
+	{
+		for(j=1;j<=a;j++)
+		    printf("%d*%d=%2d ",i,j,i*j);
+		printf("\n");
+	}
 }

@@ -10,14 +10,14 @@ void Arrange(int);
 void show(void);
 void suggest(int);
 void copy(char dest[ROW][COL],char src[ROW][COL]);
-void oksuggest(void);
+void okseats(void);
 
 char seats[ROW][COL];
 char temp[ROW][COL];
 int main(void)
 {
-	int i,j,k,n=0,pwd;
-	char ch,yn;
+	int i,j,k,n=0,x,y,pwd;
+	char ch,satisfy,mark,exit;
 	
 	start();
 	menu1();
@@ -33,7 +33,7 @@ int main(void)
 		{
 			puts("welcome!");
 			system("pause");
-			while(1)
+			while(exit!='y')
 			{
 				menu2();
 				printf("choose: ");
@@ -46,35 +46,83 @@ int main(void)
 				        system("pause");
 						break;
 					case 'b':
-						do
+						while(1)
 						{
 							puts("How many seats are needed?(<=4)");
 							scanf(" %d",&n);
 						    fflush(stdin);
-						}while(n<1||n>4);
-						//while(1)
-						//{
-							copy(temp,seats);
-							suggest(n);
-							show();
-							printf("satisfy?(y/n) ");
-		   		            scanf(" %c",&yn);
+						    if(n>=1&&n<=4)
+						        break;
+						    else
+						        puts("Input error");
+						}
+						copy(temp,seats);
+						suggest(n);
+						show();
+						while(1)
+						{
+							printf("Are you satisfied?(y/n) ");
+		   		            scanf(" %c",&satisfy);
 		   		            fflush(stdin);
-							if(yn=='y')
-							    oksuggest();
-		   		            else
-		   		                copy(seats,temp);
-						//}
-						
-						//Arrange(n);
-						//show();
-						//printf("satisfy?(y/n) ")
-						//scanf(" %c",&yn);
-						//fflush(stdin);
-						//yn=='y'?seats=''
-					    break;
+							if(satisfy=='y')
+							{
+								okseats();
+								break;
+							}
+		   		            if(satisfy=='n')
+		   		            {
+		   		            	copy(seats,temp);
+		   		            	break;
+							}
+							puts("Input error");
+						}
+						break;
+					case 'c':
+						while(1)
+						{
+							//copy(temp,seats);
+							printf("choose seat or '0' to exit:(row-col) ");
+							//scanf(" %d",&x);
+							x=getche();
+							if(x=='0')
+							{
+								printf("\n");
+								break;
+							}
+							    
+							mark=getche();
+							y=getche();
+							//printf("%c%c%c",x,mark,y);
+							//printf("%d%c%d",(int)x,mark,(int)y);
+							//scanf("%c%d",&mark,&y);
+							//fflush(stdin);
+							if(seats[(int)x-49][(int)y-49]=='-'&&mark=='-')
+							    seats[(int)x-49][(int)y-49]='@';
+							else
+							{
+								printf("\nInput error or Duplicate seats\n");
+							}
+							printf("\n");
+						}
+						show();
+						system("pause");
+						okseats();
+						break;
+					case 'd':
+						while(1)
+						{
+							printf("Continue? (y/n)");
+							exit=getche();
+							printf("\n");
+							if(exit=='y'||exit=='n')
+							    break;
+							else
+							    puts("Input error");
+							
+						}
+						break;
 					default:
-					    puts("error");
+					    puts("Input error");
 					    system("pause");
 				}
 			}
@@ -91,7 +139,7 @@ void start(void)
 {
 	int i=0,j,k=0;
 	for(i=ROW-1;i>=0;i--)
-    	for(j=0;j<COL;j++)
+    	for(j=0;j<COL-1;j++)
 	        seats[i][j]='-';
 	srand(time(NULL));
 	while(k<10)
@@ -132,7 +180,7 @@ void show(void)
 	for(i=ROW-1;i>=0;i--)
 	{
 		printf("%d",i+1);
-    	for(j=0;j<COL;j++)
+    	for(j=0;j<COL-1;j++)
 			printf("%c",seats[i][j]);
 		printf("\n");
 	}
@@ -143,23 +191,20 @@ void suggest(int n)
 	srand(time(NULL));
 	while(1)
 	{
-		//row=0;
 		i=rand()%ROW;
     	j=rand()%(COL-n);
-    	printf("ด๚ธี%d %d\n",i,j);
     	for(k=0;k<n;k++)
     	    if(seats[i][j+k]!='-')
     	    {
     	    	break;
 			}
-		printf("%d",row);
+		//printf("%d",row);
 		if(k==n)
 		    break;
 		if(n==4)
 		{
 			x=rand()%(ROW-1);
     	    y=rand()%(COL-2);
-    	    printf("ด๚ธี%d %d\n",i,j);
     	    if(seats[i][j]=='-'&&seats[i][j]!='*'&&
 		        seats[i][j+1]=='-'&&seats[i][j+1]!='*'&&
 	    	    seats[i+1][j]=='-'&&seats[i+1][j]!='*'&&
@@ -176,7 +221,7 @@ void suggest(int n)
 		for(k=0;k<n;k++)
 		    seats[i][j+k]='@';
 }
-void oksuggest(void)
+void okseats(void)
 {
 	int i,j;
 	for(i=ROW-1;i>=0;i--)

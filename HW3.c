@@ -3,14 +3,13 @@
 #include<time.h>
 #define ROW 9
 #define COL 10
-void start(void);
-void menu1(void);
-void menu2(void);
-void Arrange(int);
-void show(void);
-void suggest(int);
-void copy(char dest[ROW][COL],char src[ROW][COL]);
-void okseats(void);
+void start(void);  // Initialize the seat chart
+void menu1(void);  // Display with personal style
+void menu2(void);  // Display the main menu of the booking system
+void show(void);  // Display the current seating chart
+void suggest(int);  // Suggest recommended seats on the number needed
+void okseats(void);  // Change suggested seats to confirmed seats
+void copy(char dest[ROW][COL],char src[ROW][COL]);  // Copy matrix
 
 char seats[ROW][COL];
 char temp[ROW][COL];
@@ -21,15 +20,12 @@ int main(void)
 	
 	start();
 	menu1();
-	//srand(time(NULL));
-	//printf("%d",rand()%9);
-	//printf("%d",rand()%9);
 	for(i=0;i<=2;i++)
 	{
 		printf("password:(4 numbers)(default password 2025) ");
 		scanf(" %d",&pwd);
 		fflush(stdin);
-		if(pwd==2025)
+		if(pwd==2025)  // Check if the password is correct
 		{
 			puts("welcome!");
 			system("pause");
@@ -41,11 +37,11 @@ int main(void)
 				fflush(stdin);
 				switch(ch)
 				{
-					case 'a':
+					case 'a':  // Show available seats
 				        show();
 				        system("pause");
 						break;
-					case 'b':
+					case 'b':  // Suggest seats
 						while(1)
 						{
 							puts("How many seats are needed?(<=4)");
@@ -56,9 +52,9 @@ int main(void)
 						    else
 						        puts("Input error");
 						}
-						copy(temp,seats);
-						suggest(n);
-						show();
+						copy(temp,seats);  // Copy current seats to temporary array
+						suggest(n);  // Suggest seats
+						show();  // Show the suggested seats
 						while(1)
 						{
 							printf("Are you satisfied?(y/n) ");
@@ -66,23 +62,21 @@ int main(void)
 		   		            fflush(stdin);
 							if(satisfy=='y')
 							{
-								okseats();
+								okseats();  // Confirm the suggested seats
 								break;
 							}
 		   		            if(satisfy=='n')
 		   		            {
-		   		            	copy(seats,temp);
+		   		            	copy(seats,temp);  // Revert back to the original seat chart
 		   		            	break;
 							}
 							puts("Input error");
 						}
 						break;
-					case 'c':
+					case 'c':  // Allow user to choose seats manually
 						while(1)
 						{
-							//copy(temp,seats);
 							printf("choose seat or '0' to exit:(row-col) ");
-							//scanf(" %d",&x);
 							x=getche();
 							if(x=='0')
 							{
@@ -92,10 +86,6 @@ int main(void)
 							    
 							mark=getche();
 							y=getche();
-							//printf("%c%c%c",x,mark,y);
-							//printf("%d%c%d",(int)x,mark,(int)y);
-							//scanf("%c%d",&mark,&y);
-							//fflush(stdin);
 							if(seats[(int)x-49][(int)y-49]=='-'&&mark=='-')
 							    seats[(int)x-49][(int)y-49]='@';
 							else
@@ -104,11 +94,11 @@ int main(void)
 							}
 							printf("\n");
 						}
-						show();
+						show();  // Show the updated seating chart
 						system("pause");
-						okseats();
+						okseats();  // Confirm the selected seats
 						break;
-					case 'd':
+					case 'd':  // Exit option
 						while(1)
 						{
 							printf("Continue? (y/n)");
@@ -118,7 +108,6 @@ int main(void)
 							    break;
 							else
 							    puts("Input error");
-							
 						}
 						break;
 					default:
@@ -135,13 +124,13 @@ int main(void)
 	system("pause");
 	return 0;
 }
-void start(void)
+void start(void)  // Initialize the seat chart
 {
 	int i=0,j,k=0;
 	for(i=ROW-1;i>=0;i--)
     	for(j=0;j<COL-1;j++)
 	        seats[i][j]='-';
-	srand(time(NULL));
+	srand(time(NULL));  // Initialize the random seed using the current time
 	while(k<10)
 	{
 		i=rand()%9;
@@ -153,7 +142,7 @@ void start(void)
 		}
     }
 }
-void menu1(void)
+void menu1(void)  // Display with personal style
 {
 	int i,j;
 	for(i=0;i<=20;i++)
@@ -163,17 +152,17 @@ void menu1(void)
 		printf("\n");
 	}
 }
-void menu2()
+void menu2(void)  // Display the main menu of the booking system
 {
 	system("CLS");
 	printf("-----[Booking System]-----\n");
 	printf("| a. Available seats     |\n");
 	printf("| b. Arrange for you     |\n");
 	printf("| c. Choose by yourself  |\n");
-	printf("| c. Exit                |\n");
+	printf("| d. Exit                |\n");
 	printf("--------------------------\n");
 }
-void show(void)
+void show(void)  // Display the current seating chart
 {
 	int i,j;
 	printf("\\123456789\n");
@@ -185,23 +174,22 @@ void show(void)
 		printf("\n");
 	}
 }
-void suggest(int n)
+void suggest(int n)  // Suggest recommended seats on the number needed
 {
 	int i,j,k,x,y,row;
-	srand(time(NULL));
+	srand(time(NULL));  // Initialize the random seed using the current time
 	while(1)
 	{
-		i=rand()%ROW;
+		i=rand()%ROW;  // Find consecutive seats
     	j=rand()%(COL-n);
     	for(k=0;k<n;k++)
     	    if(seats[i][j+k]!='-')
     	    {
     	    	break;
 			}
-		//printf("%d",row);
 		if(k==n)
 		    break;
-		if(n==4)
+		if(n==4)  // Find two adjacent seats in both the front and back rows
 		{
 			x=rand()%(ROW-1);
     	    y=rand()%(COL-2);
@@ -210,8 +198,7 @@ void suggest(int n)
 	    	    seats[i+1][j]=='-'&&seats[i+1][j]!='*'&&
 	    		seats[i+1][j+1]=='-'&&seats[i+1][j+1]!='*')
 		    {
-			seats[i][j]=seats[i][j+1]=
-			    seats[i+1][j]=seats[i+1][j+1]='@';
+			    seats[i][j]=seats[i][j+1]=seats[i+1][j]=seats[i+1][j+1]='@';
 		    	row=0;
 		    	break;
 			}
@@ -221,108 +208,16 @@ void suggest(int n)
 		for(k=0;k<n;k++)
 		    seats[i][j+k]='@';
 }
-void okseats(void)
+void okseats(void)  // Change suggested seats to confirmed seats
 {
 	int i,j;
 	for(i=ROW-1;i>=0;i--)
-	    for(j=0;j<COL;j++)
+	    for(j=0;j<COL-1;j++)
 	        if(seats[i][j]=='@')
 	            seats[i][j]='*';
 	    
 }
-
-void Arrange(int n)
-{
-	int i=0,j=0,k=0,x=0,y=0,z=0,row;
-	char yn,b[3][2];
-	srand(time(NULL));
-	while(1)
-	{
-		j=rand()%9;
-    	k=rand()%9;
-    	printf("ด๚ธี%d %d\n",j,k);
-    	//show();
-    	for(i=0;i<n;i++)
-    	{
-	        temp[j][k+i]=seats[j][k+i];
-	    	if(seats[j][k+i]!='*'&&seats[j][k+i]!='\0')
-	           seats[j][k+i]='@';
-	        else
-	        {
-	        	for(x=0;x<=i;x++)
-	                seats[j][k+x]=temp[j][k+x];
-	            break;
-			}
-        }
-        if(seats[k+n-1][j]=='@')
-        {
-           	row=1;
-            break;
-        }
-        for(i=0;i<2&&n==4&&j!=8;i++)
-        {
-			for(x=0;x<2;x++)
-			{	
-				b[x][i]=seats[j+x][k+i];
-			    if(seats[j+x][k+i]!='*'&&seats[j+x][k+i]!='\0')
-		        {
-		        	seats[j+x][k+i]='@';
-			    }
-			    else
-			    {
-			    	for(y=0;y<x;y++)
-                      	seats[j+y][k]=b[y][0];
-					if(i==1)
-	                    seats[j][k+1]=b[0][1];
-	                break;
-			    }
-			}
-			if(seats[j+i][k+x-1]=='*'||seats[j+i][k+x-1]=='\0')
-				break;
-	    }
-	    if(seats[j+1][k+1]=='@')
-		{
-			row=0;
-			break;
-		}
-	    //if(seats[j][k+n-1]=='@'||seats[j+1][k+1]=='@')
-	    //    break;
-    }
-                       printf("\n");
-	    	show();
-		   	while(1)
-		   	{
-		   		printf("satisfy?(y/n) ");
-		   		scanf(" %c",&yn);
-		   		fflush(stdin);
-		   		if(yn=='y')
-		   		{
-		   			if(row==1)
-		    		    for(i=0;i<n;i++)
-		    	            seats[j][k+i]='*';
-		    	    if(row==0)
-		    	        for(i=0;i<2;i++)
-		    	        	for(x=0;x<2;x++)
-				                seats[j+i][k+x]='*';   
-				}
-		    	if(yn=='n')
-		    	{
-		    		if(row==1)
-		    		    for(i=0;i<n;i++)
-		    	            seats[k+i][j]='-';
-		    	    if(row==0)
-		    	        for(i=0;i<2;i++)
-		    	        	for(x=0;x<2;x++)
-				                seats[k+x][j+i]='-';
-				}
-				    
-		    	if(yn=='y'||yn=='n')
-		    	    break;
-	    		else
-	    		    puts("error");
-			}
-}
-void copy(char dest[ROW][COL],char src[ROW][COL])
+void copy(char dest[ROW][COL],char src[ROW][COL])  // Copy matrix
 {
 	int i,j;
     for(i=0;i<ROW;i++)

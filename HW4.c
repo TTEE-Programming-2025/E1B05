@@ -4,15 +4,19 @@
 void personal_screen(void);
 void menu(void);
 void option_a(void);
+void option_b(void);
 
+int n=0;
 struct man
-    {
-	    char name[9];
-	    char ID[7];
-	    int math;
-	    int physics;
-	    int english;
-    };
+{
+    char name[9];
+    char ID[7];
+    int math;
+    int physics;
+    int english;
+    float avg;
+};
+struct man student[10];
 int main(void)
 {
 	int i,pwd;
@@ -28,17 +32,24 @@ int main(void)
 		{
 			puts("歡迎!!!");
 			system("pause");
-			menu();
-			printf("選項:");
-			scanf(" %c",&option);
-			fflush(stdin);
-			switch(option)
+			while(1)
 			{
-				case 'a':
-					option_a();
-					break;
+				menu();
+				printf("選項:");
+				scanf(" %c",&option);
+				fflush(stdin);
+				switch(option)
+				{
+					case 'a':
+						option_a();
+						break;
+					case 'b':
+						option_b();
+						break;
+				}
+				//break;
 			}
-			break;
+			
 		}
 		if(i==2)
 		    printf("密碼連續錯3次!\n");
@@ -79,24 +90,23 @@ void menu(void)
 }
 void option_a(void)
 {
-	int i,j,n,ok;
+	int i,j,ok;
 	system("CLS");
 	do
 	{
-		printf("輸入n:(5-10)");
+		printf("輸入n位學生:(5-10) ");
 		scanf(" %d",&n);
 		fflush(stdin);
 		if(n<5||n>10)
 		    printf("輸入錯誤\n");
-	}while(n<5||n>10);
-	struct man student[n];
+	}while(n<0);//<5||n>10);
 	for(i=0;i<n;i++)
 	{
-		printf("輸入第%d位學生姓名:",i+1);
+		printf("輸入第%d位學生姓名: ",i+1);
 		scanf(" %s",student[i].name);
 	    do
 	    {
-	    	printf("輸入第%d位學生學號:(6位整數)",i+1);
+	    	printf("輸入第%d位學生學號:(6位整數) ",i+1);
 	    	scanf(" %s",student[i].ID);
 	    	for(j=0;j<=5;j++)
 	    	{
@@ -112,25 +122,41 @@ void option_a(void)
 		}while(strlen(student[i].ID)!=6||ok==0);
 		do
 		{
-			printf("輸入第%d位學生數學成績:",i+1);
+			printf("輸入第%d位學生數學成績: ",i+1);
 			scanf(" %d",&student[i].math);
 			if(student[i].math<0||student[i].math>100)
 		        printf("輸入錯誤\n");
 		}while(student[i].math<0||student[i].math>100);
 		do
 		{
-			printf("輸入第%d位學生物理成績:",i+1);
+			printf("輸入第%d位學生物理成績: ",i+1);
 			scanf(" %d",&student[i].physics);
 			if(student[i].physics<0||student[i].physics>100)
 		        printf("輸入錯誤\n");
 		}while(student[i].physics<0||student[i].physics>100);
 		do
 		{
-			printf("輸入第%d位學生英文成績:",i+1);
+			printf("輸入第%d位學生英文成績: ",i+1);
 			scanf(" %d",&student[i].english);
 			if(student[i].english<0||student[i].english>100)
 		        printf("輸入錯誤\n");
 		}while(student[i].english<0||student[i].english>100);
 		puts("\n");
 	}
+}
+void option_b(void)
+{
+	int i,j;
+	float avg;
+	system("CLS");
+	if(n==0)
+	   	printf("還未輸入學生!\n");
+	else
+		printf("姓　名   學　號   數學   物理   英文   平均值\n");
+	for(i=0;i<n;i++)
+	{
+		student[i].avg=(float)(student[i].math+student[i].physics+student[i].english)/3;
+		printf("%6s   %s%6d%7d%7d%9.1f\n",student[i].name,student[i].ID,student[i].math,student[i].physics,student[i].english,student[i].avg);
+	}
+	system("pause");
 }

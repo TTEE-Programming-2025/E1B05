@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 void personal_screen(void);
+void menu(void);
 int main(void)
 {
 	int i,pwd;
@@ -14,7 +15,10 @@ int main(void)
 		fflush(stdin);
 		if(pwd==2025)
 		{
-			
+			puts("歡迎!!!");
+			system("pause");
+			menu();
+			break;
 		}
 		if(i==2)
 		    printf("密碼連續錯3次!\n");
@@ -41,4 +45,15 @@ void personal_screen(void)
 	puts("     /   |  ");
 	puts(" .  /    !  ");
 	puts("  \\/ |x |x  ");
+}
+void menu(void)
+{
+	system("CLS");
+	printf("----------[Grade System]----------\n");
+	printf("| a. Enter student grades        |\n");
+	printf("| b. Display student grades      |\n");
+	printf("| c. Search for student grades   |\n");
+	printf("| d. Grade ranking               |\n");
+	printf("| e. Exit system                 |\n");
+	printf("----------------------------------\n");
 }

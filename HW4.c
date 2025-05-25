@@ -5,6 +5,7 @@ void personal_screen(void);
 void menu(void);
 void option_a(void);
 void option_b(void);
+void option_c(void);
 
 int n=0;
 struct man
@@ -45,6 +46,9 @@ int main(void)
 						break;
 					case 'b':
 						option_b();
+						break;
+					case 'c':
+						option_c();
 						break;
 				}
 				//break;
@@ -157,6 +161,38 @@ void option_b(void)
 	{
 		student[i].avg=(float)(student[i].math+student[i].physics+student[i].english)/3;
 		printf("%6s   %s%6d%7d%7d%9.1f\n",student[i].name,student[i].ID,student[i].math,student[i].physics,student[i].english,student[i].avg);
+	}
+	system("pause");
+}
+void option_c(void)
+{
+	int i,j,ok;
+	system("CLS");
+	struct man temp;
+	if(n==0)
+	   	printf("還未輸入學生!\n");
+	else
+	{
+		printf("輸入欲查詢學生姓名: ");
+		scanf(" %s",temp.name);
+		for(i=0;i<n;i++)
+		{
+			ok=1;
+			if(strcmp(temp.name,student[i].name)==0)
+			{
+				j=i;
+				break;
+			}
+			else
+			    ok=0;
+		}
+		if(ok==0)
+		    printf("資料不存在\n");
+		else
+		{
+			printf("姓　名   學　號   數學   物理   英文   平均值\n");
+			printf("%6s   %s%6d%7d%7d%9.1f\n",student[j].name,student[j].ID,student[j].math,student[j].physics,student[j].english,student[j].avg);
+		}
 	}
 	system("pause");
 }

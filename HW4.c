@@ -6,6 +6,7 @@ void menu(void);
 void option_a(void);
 void option_b(void);
 void option_c(void);
+void option_d(void);
 
 int n=0;
 struct man
@@ -17,7 +18,7 @@ struct man
     int english;
     float avg;
 };
-struct man student[10];
+struct man student[10],temp,rank[10];
 int main(void)
 {
 	int i,pwd;
@@ -49,6 +50,9 @@ int main(void)
 						break;
 					case 'c':
 						option_c();
+						break;
+					case 'd':
+						option_d();
 						break;
 				}
 				//break;
@@ -168,7 +172,6 @@ void option_c(void)
 {
 	int i,j,ok;
 	system("CLS");
-	struct man temp;
 	if(n==0)
 	   	printf("還未輸入學生!\n");
 	else
@@ -193,6 +196,31 @@ void option_c(void)
 			printf("姓　名   學　號   數學   物理   英文   平均值\n");
 			printf("%6s   %s%6d%7d%7d%9.1f\n",student[j].name,student[j].ID,student[j].math,student[j].physics,student[j].english,student[j].avg);
 		}
+	}
+	system("pause");
+}
+void option_d(void)
+{
+	int i;
+	system("CLS");
+	if(n==0)
+	   	printf("還未輸入學生!\n");
+	else
+	{
+		for(i=0;i<n;i++)
+		    rank[i]=student[i];
+		for(i=0;i<n-1;i++)
+		{
+			if(rank[i].avg<rank[i+1].avg)
+			{
+				temp=rank[i];
+				rank[i]=rank[i+1];
+				rank[i+1]=temp;
+			}
+		}
+		printf("姓　名   學　號   數學   物理   英文   平均值\n");
+		for(i=0;i<n;i++)
+		    printf("%6s   %s%6d%7d%7d%9.1f\n",rank[i].name,rank[i].ID,rank[i].math,rank[i].physics,rank[i].english,rank[i].avg);
 	}
 	system("pause");
 }

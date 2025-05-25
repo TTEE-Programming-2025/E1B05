@@ -22,7 +22,7 @@ struct man student[10],temp,rank[10];
 int main(void)
 {
 	int i,pwd;
-	char option;
+	char option,exit;
 	
 	personal_screen();
 	for(i=0;i<=2;i++)
@@ -34,7 +34,7 @@ int main(void)
 		{
 			puts("歡迎!!!");
 			system("pause");
-			while(1)
+			while(exit!='y')
 			{
 				menu();
 				printf("選項:");
@@ -54,10 +54,19 @@ int main(void)
 					case 'd':
 						option_d();
 						break;
+					case 'e':
+						do
+						{
+							printf("確定離開？ (y/n)  ");
+							scanf(" %c",&exit);
+							fflush(stdin);
+						}while(exit!='y'&&exit!='n');
+						break;
+					default:
+						printf("輸入錯誤!\n");
 				}
-				//break;
 			}
-			
+			break;
 		}
 		if(i==2)
 		    printf("密碼連續錯3次!\n");
